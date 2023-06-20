@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <title>Electron JS First Desktop APP</title> -->
+  </head>
+  <body style="text-align: center;">
+    <h1 style="text-align: center">Welcome to Electron JS</h1>
+    <h1>Simple Tip Calculator</h1>
+    <!-- <a href="windows/window1.html">Open New Window</a> -->
+    <div>
+    <form action="">
+        <div class="from-group">
+            <label for="bill">Enter Your Bill</label>
+            <input type="number" name="bill" id="bill" required/>
+          </div>
+          <br>
+          <div class="from-group">
+            <label for="percentage">Tip Percentage</label>
+            <input type="number" name="date" id="percentage" required/>
+          </div>
+          <br>
+          <button onclick="bilCalculateHandler(event)">Calculate</button>
+    </form>
+
+      <p id="result"></p>
+      <img id="img-main" />
+    </div>
+    <script>
+      const bilCalculateHandler = (event) => {
+        event.preventDefault();
+        const bill = document.getElementById("bill").value;
+        const percentage = document.getElementById("percentage").value;
+        const result = document.getElementById("result");
+        console.log("Clicked:",bill,percentage);
+        result.innerText = `Your Tip is : 
+        ${(bill*percentage)/100}`;
+      };
+
+      // Set Image::
+      const imgTag = document.getElementById('img-main');
+      window.electronAPI.updateImage((event,data)=> {
+        imgTag.src = data;
+        window.electronAPI.closeCameraWindow();
+      })
+    </script>
+  </body>
+</html>

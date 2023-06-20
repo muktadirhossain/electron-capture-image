@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera</title>
+</head>
+<body>
+    <h1 style="text-align: center;">Camera</h1>
+    <video autoplay id="camera" height="400" width="300"></video>
+
+    <button id="capture">Capture Image</button>
+
+    <img id="image" />
+    <script>
+        const video = document.getElementById("camera");
+        const captureBtn = document.getElementById("capture");
+        const imageTag = document.getElementById("image");
+
+        navigator.mediaDevices.getUserMedia({video: true}).then((stream)=>{
+            video.srcObject = stream;
+        })
+
+        captureBtn.addEventListener("click", ()=>{
+            const canvas = document.createElement("canvas");
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            // Draw the video at the Frame::
+            canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
+            const dataURL = canvas.toDataURL();
+            window.electronAPI.setImage(dataURL);
+            new Notification("Image Captured",{
+                body:"Image Captured Successfully!"
+            })
+        })
+    </script>
+</body>
+</html>
